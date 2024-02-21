@@ -28,7 +28,7 @@
         <maven.compiler.release>17</maven.compiler.release>
         <maven.compiler.testRelease>17</maven.compiler.testRelease>
 
-        <eclipselink.bug.version>5.0.0-SNAPSHOT</eclipselink.bug.version>
+        <eclipselink.bug.version>4.0.2</eclipselink.bug.version>
         <jpa.api.bug.version>3.2.0-M1</jpa.api.bug.version>
         <asm.bug.version>9.6</asm.bug.version>
         <eclipselink.asm.bug.version>9.6.0</eclipselink.asm.bug.version>
@@ -52,6 +52,11 @@
         <dependency>
             <groupId>org.eclipse.persistence</groupId>
             <artifactId>eclipselink</artifactId>
+            <version>${eclipselink.bug.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.persistence</groupId>
+			<artifactId>org.eclipse.persistence.jpa</artifactId>
             <version>${eclipselink.bug.version}</version>
         </dependency>
         <dependency>
