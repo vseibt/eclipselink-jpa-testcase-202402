@@ -17,16 +17,17 @@ import static org.junit.Assert.assertNotNull;
 import org.junit.Assert;
 import org.junit.Test;
 
+import eclipselink.jpa.bugtest.domain.TestEntityMaster;
 import eclipselink.jpa.bugtest.domain.TestEntityPerson;
 import eclipselink.jpa.bugtest.domain.TestEntityPersonId;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
-public class TestBug {
+public class TestOk {
 
     @Test
-    public void getReferenceByCompositeKeyTest() {
+    public void findByCompositeKeyTest() {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("test-jpa-pu");
         assertNotNull(entityManagerFactory);
 
@@ -35,8 +36,33 @@ public class TestBug {
         try {
             em.getTransaction().begin();
             var id = new TestEntityPersonId("Stan", "Dandeliver");
-            var testPerson = em.getReference(TestEntityPerson.class, id);
+            var testPerson = em.find(TestEntityPerson.class, id);
             Assert.assertNotNull(testPerson);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException();
+        }
+        finally {
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            em.close();
+        }
+    }
+
+    @Test
+    public void getReferenceBySingleKeyTest() {
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("test-jpa-pu");
+        assertNotNull(entityManagerFactory);
+
+        EntityManager em = entityManagerFactory.createEntityManager();
+
+        try {
+            em.getTransaction().begin();
+            var id = 1L;
+            var testMaster = em.find(TestEntityMaster.class, id);
+            Assert.assertNotNull(testMaster);
             em.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
